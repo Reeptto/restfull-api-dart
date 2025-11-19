@@ -1,35 +1,49 @@
-class ProductModel {
-  // 1. definisikan var yg ditentukan
-  // 2. set ke final supaya tidak dapat dirubah setelah dibuat
+import 'dart:convert';
 
-  final int id;
-  final String title;
-  final String description;
-  final double price;
-  final String category;
-  final String image;
+class Product {
+    final int id;
+    final String title;
+    final int price;
+    final String description;
+    final String category;
+  Product({
+    required this.id,
+    required this.title,
+    required this.price,
+    required this.description,
+    required this.category,
+  });
 
-  // constructor
-  ProductModel({
-      required this.id,
-      required this.title,
-      required this.description, 
-      required this.price,
-      required this.category,
-      required this.image,
-    });
 
-  // method untuk import dari json
-  // buat method dengan keyword factory
-  factory ProductModel.fromJson(Map<String, dynamic> json) 
-  {
-    return ProductModel(
-      id: json["id"], 
-      title: json["title"], 
-      description: json["description"], 
-      price: json["price"], 
-      category: json["category"], 
-      image: json["image"]);
+// constructor, konversi dari atau ke json 
+
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'price': price,
+      'description': description,
+      'category': category,
+    };
   }
 
+  factory Product.fromMap(Map<String, dynamic> map) {
+    return Product(
+      id: map['id']?.toInt() ?? 0,
+      title: map['title'] ?? '',
+      price: map['price']?.toInt() ?? 0,
+      description: map['description'] ?? '',
+      category: map['category'] ?? '',
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Product.fromJson(String source) => Product.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'Product(id: $id, title: $title, price: $price, description: $description, category: $category)';
+  }
 }

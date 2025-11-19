@@ -61,7 +61,6 @@ class UserHelper {
     } catch (e) {
       throw Exception("Error :$e");
     }
-
   }
   
   // method ambil data user berdasarkan id
